@@ -67,6 +67,8 @@ void Jogo::acoesVitoria() {
     printf("Jogador Venceu\n"); //TEMPORARIO
 }
 
+/*teeeeeeeeeeeeeeeeeeste*/
+
 void Jogo::acoesDerrota() {
     //LCD Mostra Game Over
     printf("Jogador Perdeu\n"); //TEMPORARIO
