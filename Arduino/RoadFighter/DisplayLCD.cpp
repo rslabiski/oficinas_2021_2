@@ -22,7 +22,7 @@ void DisplayLCD::imprimeCentralizado(String texto, int linha)
 {
   int qntLetras = texto.length();
   String textoFinal = "";
-  int qntVazio = round((float)(16-qntLetras)/2); //Arrendonda para cima
+  int qntVazio = (16 - qntLetras) / 2;
   
   setCursor(0,linha);
   

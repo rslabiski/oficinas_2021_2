@@ -17,9 +17,7 @@ class Joystick
 
     int eixoX();  // -1 -> Esquerda   0 -> Neutro   1 -> Direita
     int eixoY();  // -1 -> Baixo      0 -> Neutro   1 -> Cima
-
-    //FUNCAO FUNCIONA MAS O JOYSTICK APARENTA ESTAR COM DEFEITO
-    bool cliqueZ();  //  Apenas quando o usuario solta o botao retorna true
+    bool cliqueZ();  //  true -> Ao soltar o botao
 
     //TEMPORARIA
     void teste()

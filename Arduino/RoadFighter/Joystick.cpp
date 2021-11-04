@@ -17,6 +17,7 @@ void Joystick::setSetup()
   pinMode(PIN_A_EIXO_X, INPUT);
   pinMode(PIN_A_EIXO_Y, INPUT);
   pinMode(PIN_D_EIXO_Z, INPUT);
+  digitalWrite(PIN_D_EIXO_Z, HIGH); //Se não setar, ele fica enviando pulsos aleatórios!
 }
 
 int Joystick::eixoX()
@@ -46,8 +47,9 @@ int Joystick::eixoY()
 bool Joystick::cliqueZ()
 {
   bool clique = digitalRead(PIN_D_EIXO_Z);
-  
-  if( clique == HIGH) {
+
+  //Por causa do setSetup = HIGH, se não ele manda pulsos aleatorios
+  if( clique == LOW) { 
     zClicado = true;
     zLiberado = false;
   }
