@@ -8,30 +8,27 @@ class Veiculo
 protected:
     int x;
     int y;
-    int vx;
-    int vy;
+    int v;
     int comprimento;
     bool visivel; //Variavel de controle para alterar no atualizar e remover ou nao o elemento
+    /*-- ANDREA: Não sei se há necessidade deste bool. --*/
 
 public:
-    Veiculo(int xi, int yi, int vxi, int vyi, int comprimento);
+    Veiculo(int xi, int yi, int vxi, int comprimento);
     ~Veiculo();
 
-    void inicializar(int xi, int yi, int vxi, int vyi);
+    void inicializar(int xi, int yi, int v);
 
     virtual void mover() = 0;
 
     //Sets e Gets
-    void setX(int x) {this->x = x;}
-    void setY(int y) {this->y = y;}
-    void setVX(int vx) {this->vx = vx;}
-    void setVY(int vy) {this->vy = vy;}
+    void setCoordenadas(int x, int y) { this->x = x; this->y = y;}
+    void setVelocidade(int vy) {this->v = v;}
     void setComprimento(int c) {this->comprimento = c;}
 
-    int getX() {return x;}
-    int getY() {return y;}
-    int getVX() {return vx;}
-    int getVY() {return vy;}
+    int getCoordenadaX() {return x;}
+    int getCoordenadaY() {return y;}
+    int getVelocidade() {return v;}
     int getComprimento() {return comprimento;}
 
     //Temporario para teste
@@ -40,9 +37,13 @@ public:
         printf("\nID: %d", id);
         printf("\nX: %d", x);
         printf("\nY: %d", y);
-        printf("\nVY: %d", vy);
+        printf("\nVY: %d", v);
         printf("\nComprimento: %d", comprimento);
     }
+
+    /* ANDREA: Sugestão */
+    void imprimirMatriz(int** m);
+
 };
 
 #endif
