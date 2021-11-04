@@ -15,6 +15,8 @@ void setup() {
   //Temporario para testes
   Serial.begin(9600);
   
+  /*Comentario Andrea: vai parecer mó chato dizer, mas por ser inglês, o ideal não é a função de setup ser só setSetup? Parece redundância usar setSetup... */
+  
   //Seta os elementos
   displayLCD.setSetup();
   joystick.setSetup();
