@@ -9,9 +9,9 @@ ESTA VERSÃO É ESPECIFICAMENTE PARA TESTAR O JOGO NO COMPUTADOR USANDO MATRIZES
 
 #include <stdio.h>
 
-#define FACIL 'f'
-#define MEDIO 'm'
-#define DIFICIL 'd'
+#define FACIL 1
+#define MEDIO 2
+#define DIFICIL 3
 
 class JogoNotebook 
 {
