@@ -1,27 +1,28 @@
-#ifndef H_JOGO
-#define H_JOGO
+/*
+
+ESTA VERSÃO É ESPECIFICAMENTE PARA TESTAR O JOGO NO COMPUTADOR USANDO MATRIZES.
+
+*/
+
+#ifndef H_JOGONOTEBOOK
+#define H_JOGONOTEBOOK
 
 #include <stdio.h>
-#include "DisplayLCD.hpp"
-#include "MatrizLED.hpp"
 
 #define FACIL 'f'
 #define MEDIO 'm'
 #define DIFICIL 'd'
 
-class Jogo 
+class JogoNotebook 
 {
 private:
-    //DisplayLCD displayLCD;
-    //MatrizLED matrizLED;
-
     char dificuldade; // Variavel de controle para criação dos elementos
     bool fimDoJogo; //Variavel de controle do loop do jogo
     bool vitoria; //Variavel de controle da vitoria do jogador
 
 public:
-    Jogo();
-    ~Jogo();
+    JogoNotebook ();
+    ~JogoNotebook ();
 
     void executar(); //Execução do jogo
     void capturaEntrada(); //Captura entrada do joystick e altera velocidade do jogador

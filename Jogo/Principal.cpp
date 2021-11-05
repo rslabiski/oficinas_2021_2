@@ -1,9 +1,9 @@
 #include <stdio.h>
-
-#include "Jogo.hpp"
+#include "JogoNotebook.h"
+#include "JogoNotebook.cpp"
 
 int main() {
-    Jogo jogo;
+    JogoNotebook jogo;
     jogo.executar();
 
     return 0;
