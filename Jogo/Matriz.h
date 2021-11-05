@@ -15,7 +15,11 @@ protected:
 public:
     Matriz(int dificuldade);
     ~Matriz();
+    
     void imprimeMatriz(); /* Imprimir a partir da linha 3 para baixo */
+    void atualizar(); /* Pega a posição do Jogador e reimprime a matriz */
+    
+
 };
 
 #endif

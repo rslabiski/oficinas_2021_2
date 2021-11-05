@@ -1,9 +1,3 @@
-/*
-
-ESTA VERSÃO É ESPECIFICAMENTE PARA TESTAR O JOGO NO COMPUTADOR USANDO MATRIZES.
-
-*/
-
 #ifndef H_JOGONOTEBOOK
 #define H_JOGONOTEBOOK
 
@@ -16,24 +10,24 @@ ESTA VERSÃO É ESPECIFICAMENTE PARA TESTAR O JOGO NO COMPUTADOR USANDO MATRIZES
 class JogoNotebook 
 {
 private:
-    char dificuldade; // Variavel de controle para criação dos elementos
+    int dificuldade; // Variavel de controle para criação dos elementos
     bool fimDoJogo; //Variavel de controle do loop do jogo
     bool vitoria; //Variavel de controle da vitoria do jogador
-    int **percorrido;
 
 public:
     JogoNotebook();
     ~JogoNotebook();
+    /* Função para inserir o inimigo nas 3 primeiras linhas */
 
-    void setup();
-    void executar(); //Execução do jogo
-    void capturaEntrada(); //Captura entrada do joystick e altera velocidade do jogador
-    void atualizar(); //Atualiza os elementos do jogo
-    void renderizar(); //Renderiza no Display e Matriz
-    void acoesVitoria(); //Acoes quando o jogador Vencer
-    void acoesDerrota(); //Acoes quadno o jogador Perder
+    void setDificuldade(); /* Função com interação com o Display LCD e Joystick */
+    int getDificuldade(); 
 
-    void loop();
+    void setup(); /* Declarar jogador, matriz e inimigos iniciais */
+    bool varrerColuna(); /* Evita colisão de inimigos após criação (varrer coluna tamanho + 1) */ 
+    void atualizador(); /* Chama o atualizaMatriz e cria inimigos (3 linhas iniciais matriz, chama varrerColuna),  */
+    void encerrarPartida(); /* verifica tempo, pontuacao e posicao do jogador */
+
+    // void re_interacao();
 };
 
 #endif
