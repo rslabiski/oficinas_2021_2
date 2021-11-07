@@ -13,7 +13,7 @@ protected:
     int comprimento;
 
 public:
-    Veiculo(int xi, int yi, int vxi);
+    Veiculo(int xi, int yi, int vxi, int comprimento);
     ~Veiculo();
 
     void inicializar(int xi, int yi, int v);
