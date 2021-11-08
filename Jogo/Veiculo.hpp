@@ -2,6 +2,7 @@
 #define H_VEICULO
 
 #include <stdio.h>
+#include "Matriz.h"
 
 class Veiculo
 {
@@ -21,7 +22,7 @@ public:
     virtual void mover() = 0;
     
     void setCoordenadas(int x, int y) { this->x = x; this->y = y;}
-    void setVelocidade(int vy) {this->v = v;}
+    void setVelocidade(int vy) {this->v = vy;}
     void setComprimento(int c) {this->comprimento = c;}
 
     int getCoordenadaX() {return x;}

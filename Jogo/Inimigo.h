@@ -6,16 +6,18 @@
 
 class Inimigo : public Veiculo {
     private:
-        int comprimento;
         int dano;
         float atraso;
 
     public:
-        Inimigo(int xi, int yi, int vxi, int comprimento);
+        Inimigo(int xi, int yi, int vxi, int comprimento, int dano, int atraso);
         ~Inimigo();
 
         int getDano() {return this->dano;}
         int getAtraso() {return this->atraso;}
+
+        virtual void mover();
+        void deletarInimigo();
 };
 
 #endif

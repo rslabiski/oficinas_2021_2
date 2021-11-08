@@ -5,7 +5,6 @@
 #define VCONST 3
 
 #include "Veiculo.hpp"
-#include "Matriz.h"
 
 /*
     acelerar = inimigos pra baixo
