@@ -8,13 +8,13 @@ Carro2::~Carro2(){
 
 void Carro2::mover(){
     if(this->v > 0){
-        if(this->x + this->comprimento < 16) //Evita segmentation fault
-            setCoordenadas(this->x + 1, this->y);
+        if(this->y + this->comprimento < 16) //Evita segmentation fault
+            setCoordenadas(this->x, this->y + 1);
         else deletarInimigo();
     }
     else{
-        if(this->x > 0)
-            setCoordenadas(this->x - 1, this->y);
+        if(this->y > 0)
+            setCoordenadas(this->x, this->y - 1);
         else deletarInimigo();
     }
 
@@ -23,13 +23,13 @@ void Carro2::mover(){
     int mov = rand()%3;
 
     if(mov == 1){
-        if(this->y > 0) //Evita segmentation fault
-            setCoordenadas(this->x, this->y - 1);
+        if(this->x > 0) //Evita segmentation fault
+            setCoordenadas(this->x - 1, this->y);
         else deletarInimigo();
     } 
     else if (mov == 2){
-        if(this->y < 7) //Evita segmentation fault
-            setCoordenadas(this->x, this->y + 1);
+        if(this->x < 7) //Evita segmentation fault
+            setCoordenadas(this->x + 1, this->y);
         else deletarInimigo();
     }
 }
