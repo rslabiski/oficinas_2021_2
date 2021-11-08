@@ -2,7 +2,7 @@
 #define INIMIGO_H
 
 #include <stdio.h>
-#include "Veiculo.hpp"
+#include "Veiculo.h"
 
 class Inimigo : public Veiculo {
     private:
@@ -16,7 +16,7 @@ class Inimigo : public Veiculo {
         int getDano() {return this->dano;}
         int getAtraso() {return this->atraso;}
 
-        virtual void mover();
+        virtual void mover(char tecla = 0);
         void deletarInimigo();
 };
 

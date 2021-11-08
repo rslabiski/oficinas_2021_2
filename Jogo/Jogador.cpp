@@ -3,6 +3,7 @@
 Jogador::Jogador(int xi, int yi, int vxi, int comprimento):Veiculo (xi, yi, vxi, comprimento){
     this->pontuacao = 0;
     this->tecla = NULL;
+    this->id = 1;
 }
 
 void Jogador::mover(char tecla) {

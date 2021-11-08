@@ -4,12 +4,10 @@
 #define VMAX 5
 #define VCONST 3
 
-#include "Veiculo.hpp"
+#include "Veiculo.h"
 
 /*
-    acelerar = inimigos pra baixo
-    freiar = inimigos para cima
-
+    Veículo do jogador principal.
 */
 class Jogador: public Veiculo {
     private:
@@ -17,7 +15,7 @@ class Jogador: public Veiculo {
         int pontuacao;
 
     public:
-        Jogador(int xi, int yi, int vxi, int comprimento); /**/
+        Jogador(int xi, int yi, int vxi, int comprimento); 
         ~Jogador();
 
         void mover(char tecla); /* a w s d, 'w' e 's' mudam velocidade */ 

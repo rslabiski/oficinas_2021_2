@@ -19,7 +19,7 @@ public:
 
     void inicializar(int xi, int yi, int v);
 
-    virtual void mover() = 0;
+    virtual void mover(char tecla = 0) = 0;
     
     void setCoordenadas(int x, int y) { this->x = x; this->y = y;}
     void setVelocidade(int vy) {this->v = vy;}

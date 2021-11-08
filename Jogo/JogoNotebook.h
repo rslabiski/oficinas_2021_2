@@ -9,11 +9,22 @@
 #define MEDIO 2
 #define DIFICIL 3
 
-#include <Jogador.h>
-#include <Inimigo.h>
+#include "Jogador.h"
+#include "Inimigo.h"
 #include <time.h>
 class Matriz;
 class Veiculo;
+
+/*
+ESPECIFICAÇÕES DE CADA DIFICULDADE DO JOGO:
+
+FÁCIL:
+    Tamanho da pista: 6 blocos, 1 de cada lado para representar bordas da pista;
+MÉDIO:
+    Tamanho da pista: 4 blocos, 1 de cada lado para representar bordas, e 1 livre.
+DIFÍCIL:
+    Tamanho da pista: 4 blocos, 1 de cada lado para representar bordas, e 1 livre.
+*/
 
 class JogoNotebook 
 {
@@ -37,7 +48,7 @@ public:
     void setup(); /* Declarar jogador, matriz e inimigos iniciais */
     bool varrerColuna(int x, int y, int comprimento); /* Evita colisão de inimigos após criação (varrer coluna tamanho + 1) */ 
     void atualizador(); /* Chama o atualizaMatriz e cria inimigos (3 linhas iniciais matriz, chama varrerColuna),  */
-    bool encerrarPartida(); /* verifica tempo, pontuacao e posicao do jogador */
+    bool encerrarPartida();
 
     void posicionaVeiculo(Veiculo* v, int x, int y);
     // void re_interacao();

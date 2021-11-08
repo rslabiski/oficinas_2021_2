@@ -1,6 +1,6 @@
 #include "Matriz.h"
 
-Matriz::Matriz(int dificuldade, int tam_pista)
+Matriz::Matriz(int dificuldade, int tam_pista  = 0, int posicao = 0)
 {
     this->dificuldade = dificuldade;
     this->tam = tam_pista;
@@ -26,6 +26,7 @@ Matriz::Matriz(int dificuldade, int tam_pista)
 
 Matriz::~Matriz(){}
 
+/* Imprime a parte que da matriz que irá ser visível na Matriz LED. */
 void Matriz::imprimeMatriz()
 {
     int i, j;
@@ -52,5 +53,12 @@ void Matriz::atualizaMatriz(){
 
     for(i = 0; i<8; i++)
         this->setPosiMatriz(0, i, 0);
+    
+    posicao++;
 
 }
+
+/* Verifica se o jogador já percorreu toda a pista.*/
+bool Matriz::fimDaMatriz(){
+    return (posicao == tam - 1 + 8) ? false : true;
+ }

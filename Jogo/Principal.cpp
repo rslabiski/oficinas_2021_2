@@ -2,15 +2,15 @@
 //#include "JogoNotebook.h"
 //#include "JogoNotebook.cpp"
 
-#include "Matriz.h"
-#include "Matriz.cpp"
+#include "JogoNotebook.h"
+#include "JogoNotebook.cpp"
 
 int main() {
 
-    //JogoNotebook jogo;
+    JogoNotebook jogo;
     //jogo.executar();
-    Matriz m(3);
-    m.imprimeMatriz();
+    //Matriz m(3);
+    //m.imprimeMatriz();
 
     return 0;
 }

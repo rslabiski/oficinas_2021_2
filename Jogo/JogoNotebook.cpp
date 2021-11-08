@@ -1,9 +1,13 @@
 #include "JogoNotebook.h"
 
 JogoNotebook::JogoNotebook() {
+    setup();
 }
 
 JogoNotebook::~JogoNotebook() {
+
+    delete jogador;
+    delete m;
 }
 
 void JogoNotebook::setup(){
@@ -12,14 +16,17 @@ void JogoNotebook::setup(){
     /* Declarar jogador, matriz e inimigos iniciais */
     /* Qual será a primeira velocidade? */
 
-    //jogador = new Jogador(4, 0, 30, 1); 
+    jogador = new Jogador(4, 0, 1, 1);
+    m = new Matriz(1);
 
     int px, py;
 
-    // posicionaVeiculo(jogador, meio, meio);
+    cout << jogador->getIdentificador();
+    //posicionaVeiculo(jogador, 18, 5);
+    //m->imprimeMatriz();
 
     /* Vou assumir que começamos por 5 kekeke*/
-    int i =0;
+    /* int i =0;
     while (i < 5){
         px = rand()%16;
         py = rand()%8;
@@ -28,11 +35,11 @@ void JogoNotebook::setup(){
             posicionaVeiculo(x, px, py);
             i++;
         } 
-    }
+    } */
 
 }
 
-/* Tem algum problema com essa função, favor verificar depois. */
+/* Posiciona o veículo na matriz. */
 void JogoNotebook::posicionaVeiculo(Veiculo* v, int x, int y){
     
     int i,j, c = v->getComprimento();
@@ -44,15 +51,17 @@ void JogoNotebook::posicionaVeiculo(Veiculo* v, int x, int y){
 bool JogoNotebook::varrerColuna(int x, int y, int comprimento){
 
     int i = y;
+    if(y - comprimento < 0) return false;
     while(i >= y - comprimento){
-        if(i < 0 || m->getPosiMatriz(x, i) != 0) return false;
+        if(m->getPosiMatriz(x, i) != 0) return false;
         i--;
     }
 
     return true;
 }
 
+/* Verifica tempo, pontuação e posição do jogador para ver se é possível encerrar o jogo */
 bool JogoNotebook::encerrarPartida(){
-    if( tempo <=0 ) return true;
-    /**/
+    return (tempo <= 0 || m->fimDaMatriz() || jogador->getPontuacao() <=0 ) ? true : false ;
+    
 }

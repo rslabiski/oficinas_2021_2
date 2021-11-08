@@ -15,7 +15,7 @@ protected:
     int posicao; /* A matriz vai ter no máximo tam - 1 + (metade da matriz) atualizações, como o jogador se mantem sempre na mesma posicao, não há como identificar quando ele chegou na linha de chegada... */
 
 public:
-    Matriz(int dificuldade, int tam_pista);
+    Matriz(int dificuldade, int tam_pista = 0, int posicao = 0);
     ~Matriz();
     
     void imprimeMatriz(); /* Imprimir a partir da linha 3 para baixo */
@@ -25,7 +25,8 @@ public:
     int getPosiMatriz(int x, int y) {return this->m[x][y];} /* Retorna o valor em uma dada posição na matriz*/ 
 
     void atualizaMatriz();
-    int getPosicao(){return posicao;}
+    int getPosicao(){ return posicao; }
+    bool fimDaMatriz();
 };
 
 #endif
