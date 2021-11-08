@@ -25,7 +25,7 @@ class Jogador: public Veiculo {
 
         int colide(Matriz* M, float tempo); /* Retorna o dano se colidir, se não, retorna 0, se colidir faz o veículo explodir */
         int atualizaPontuacao(int dano) {this->pontuacao = this->pontuacao -dano;} /* Recebe o retorno do colide */
-    
+        int getPontuacao(){return this->pontuacao;}
 };
 
 #endif

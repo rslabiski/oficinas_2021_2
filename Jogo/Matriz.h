@@ -11,9 +11,11 @@ class Matriz
 protected:
     int m[19][8]; /* Para evitar carros aparecerem brotados */
     int dificuldade;
+    int tam;
+    int posicao; /* A matriz vai ter no máximo tam - 1 + (metade da matriz) atualizações, como o jogador se mantem sempre na mesma posicao, não há como identificar quando ele chegou na linha de chegada... */
 
 public:
-    Matriz(int dificuldade);
+    Matriz(int dificuldade, int tam_pista);
     ~Matriz();
     
     void imprimeMatriz(); /* Imprimir a partir da linha 3 para baixo */
@@ -22,6 +24,8 @@ public:
     void setPosiMatriz(int x, int y, int valor) {this->m[x][y] = valor;} /* Modifica o valor em uma dada posição na matriz*/ 
     int getPosiMatriz(int x, int y) {return this->m[x][y];} /* Retorna o valor em uma dada posição na matriz*/ 
 
+    void atualizaMatriz();
+    int getPosicao(){return posicao;}
 };
 
 #endif
