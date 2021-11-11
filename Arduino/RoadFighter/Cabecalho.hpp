@@ -6,7 +6,7 @@
 
 // Dados Jogo
 #define PONTO_POR_SEG 4
-#define PROGRESSO_POR_SEG 0.02
+#define PROGRESSO_POR_SEG 0.2
 #define TEMPO_SPAWN 2 //2 seg
 
 #endif
