@@ -8,25 +8,24 @@ Joystick::Joystick()
 
 Joystick::~Joystick()
 {
-  
+
 }
 
-void Joystick::setSetup()
+void Joystick::Setup()
 {
-  //Constantes estão no arquivo Cabecalho.hpp
-  pinMode(PIN_A_EIXO_X, INPUT);
-  pinMode(PIN_A_EIXO_Y, INPUT);
-  pinMode(PIN_D_EIXO_Z, INPUT);
-  digitalWrite(PIN_D_EIXO_Z, HIGH); //Se não setar, ele fica enviando pulsos aleatórios!
+  pinMode(P_EIXO_X, INPUT);
+  pinMode(P_EIXO_Y, INPUT);
+  pinMode(P_EIXO_Z, INPUT);
+  digitalWrite(P_EIXO_Z, HIGH); //Se não setar, ele fica enviando pulsos aleatórios!
 }
 
 int Joystick::eixoX()
 {
-  float valor = analogRead(PIN_A_EIXO_X);
-  
-  if(valor <= (EIXO_MAX - ZONA_MORTA) / 2)
+  float valor = analogRead(P_EIXO_X);
+
+  if (valor <= (EIXO_MAX - ZONA_MORTA) / 2)
     return -1;
-  else if(valor >= (EIXO_MAX + ZONA_MORTA) / 2) 
+  else if (valor >= (EIXO_MAX + ZONA_MORTA) / 2)
     return 1;
   else
     return 0;
@@ -34,11 +33,11 @@ int Joystick::eixoX()
 
 int Joystick::eixoY()
 {
-  float valor = analogRead(PIN_A_EIXO_Y);
-  
-  if(valor <= (EIXO_MAX - ZONA_MORTA) / 2)
+  float valor = analogRead(P_EIXO_Y);
+
+  if (valor <= (EIXO_MAX - ZONA_MORTA) / 2)
     return 1;
-  else if(valor >= (EIXO_MAX + ZONA_MORTA) / 2) 
+  else if (valor >= (EIXO_MAX + ZONA_MORTA) / 2)
     return -1;
   else
     return 0;
@@ -46,17 +45,17 @@ int Joystick::eixoY()
 
 bool Joystick::cliqueZ()
 {
-  bool clique = digitalRead(PIN_D_EIXO_Z);
+  bool clique = digitalRead(P_EIXO_Z);
 
-  //Por causa do setSetup = HIGH, se não ele manda pulsos aleatorios
-  if( clique == LOW) { 
+  //Clique == LOW por causa do setSetup = HIGH, se não ele manda pulsos aleatorios
+  if ( clique == LOW) {
     zClicado = true;
     zLiberado = false;
   }
   else {
     zLiberado = true;
   }
-  if(zClicado && zLiberado) {
+  if (zClicado && zLiberado) {
     zClicado = false;
     zLiberado = false;
     return true;

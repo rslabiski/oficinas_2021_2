@@ -3,6 +3,12 @@
 
 #include "Cabecalho.hpp"
 
+#define P_EIXO_X A0 // 0 - 517 - 1023
+#define P_EIXO_Y A1 // 0 - 495 - 1023
+#define P_EIXO_Z 7 // true or false
+#define EIXO_MAX 1023 //Valor maximo do analogico
+#define ZONA_MORTA 100 //Valor onde não ocorrre acoes do joystick
+
 class Joystick
 {
   private:
@@ -13,38 +19,11 @@ class Joystick
     Joystick();
     ~Joystick();
 
-    void setSetup();
+    void Setup();
 
     int eixoX();  // -1 -> Esquerda   0 -> Neutro   1 -> Direita
     int eixoY();  // -1 -> Baixo      0 -> Neutro   1 -> Cima
     bool cliqueZ();  //  true -> Ao soltar o botao
-
-    //TEMPORARIA
-    void teste()
-    {
-      Serial.print("\nX: ");
-      if (eixoX() == -1)
-        Serial.print("Esquerda");
-      else if (eixoX() == 1)
-        Serial.print("Direita");
-      else if (eixoX() == 0)
-        Serial.print("Neutro");
-
-      Serial.print("\tY: ");
-      if (eixoY() == -1)
-        Serial.print("Baixo");
-      else if (eixoY() == 1)
-        Serial.print("Cima");
-      else if (eixoY() == 0)
-        Serial.print("Neutro");
-
-      Serial.print("\tZ: ");
-      if (cliqueZ())
-        Serial.print("1");
-      else
-        Serial.print("0");
-      delay(100);
-    }
 };
 
 #endif

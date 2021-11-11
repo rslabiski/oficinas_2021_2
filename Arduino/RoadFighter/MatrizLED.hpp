@@ -4,24 +4,23 @@
 #include "Cabecalho.hpp"
 #include <MD_MAX72xx.h>
 
-class MatrizLED : 
+#define P_CLK 13
+#define P_DATA 11
+#define P_CS 10
+#define N_MODULOS 2
+
+class MatrizLED :
   public MD_MAX72XX
 {
-public:
-  MatrizLED();
-  ~MatrizLED();
+  public:
+    MatrizLED();
+    ~MatrizLED();
 
-  void setSetup();
+    void Setup();
 
-  void led(int linha, int coluna, int ligado); //0 -> Desligado, != 0 -> Ligado
-  void todosLeds(int ligado); //0-> apagar todos, != -> Ligar todos
-
-  /*
-  void acenderLed(int l, int c);
-  void apagarLed(int l, int c);
-  void acenderTodosLeds();
-  void apagarTodosLeds();
-  */
+    void led(int linha, int coluna, int ligado); //0 -> Desligado, != 0 -> Ligado
+    void todosLeds(int ligado); //0-> apagar todos, != -> Ligar todos
+    void ledIntervalo(int li, int lf, int ci, int cf, int ligado); // li: Linha inicial, lf: Linha final, ci: Coluna inicial, cf: Coluna final, ligado: 0 -> Desligado ou != 0 -> Ligado.
 };
 
 #endif
