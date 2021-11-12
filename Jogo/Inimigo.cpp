@@ -1,6 +1,6 @@
 #include "Inimigo.h"
 
-Inimigo::Inimigo(int xi, int yi, int vxi, int comprimento, int dano, int atraso):Veiculo (xi, yi, vxi, comprimento){
+Inimigo::Inimigo(int xi, int yi, int vxi, int comprimento, int id, int dano, int atraso):Veiculo (xi, yi, vxi, comprimento, id){
     this->dano = dano;
     this->atraso = atraso;
 }
@@ -19,4 +19,8 @@ void Inimigo::mover(){
             setCoordenadas(this->x, this->y - 1);
         else deletarInimigo();
     }
+}
+
+void Inimigo::deletarInimigo(){
+    
 }

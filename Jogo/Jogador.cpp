@@ -1,6 +1,6 @@
 #include "Jogador.h"
 
-Jogador::Jogador(int xi, int yi, int vxi, int comprimento):Veiculo (xi, yi, vxi, comprimento){
+Jogador::Jogador(int xi, int yi, int vxi, int comprimento, int id):Veiculo (xi, yi, vxi, comprimento, id){
     this->pontuacao = 0;
     this->tecla = NULL;
     this->id = 1;
@@ -32,6 +32,18 @@ void Jogador::mover(char tecla) {
         break;
     }
     this->tecla = NULL;
+}
+
+void Jogador::mover(int x, int y){
+    setCoordenadas(this->x + x, this->y);
+
+    if(y == -1)
+        setVelocidade(VELOCIDADE_MIN);
+    else if(y == 1)
+        setVelocidade(VELOCIDADE_MXM);
+    else
+        setVelocidade(VELOCIDADE_PADRAO);
+
 }
 
 int Jogador::colide(Matriz* M, float tempo){

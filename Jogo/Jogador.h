@@ -15,13 +15,14 @@ class Jogador: public Veiculo {
         int pontuacao;
 
     public:
-        Jogador(int xi, int yi, int vxi, int comprimento); 
+        Jogador(int xi, int yi, int vxi, int comprimento, int id); 
         ~Jogador();
 
         void mover(char tecla); /* a w s d, 'w' e 's' mudam velocidade */ 
+        void mover(int x, int y); /* Recebe o retorno do Joystick */
 
         int colide(Matriz* M, float tempo); /* Retorna o dano se colidir, se não, retorna 0, se colidir faz o veículo explodir */
-        int atualizaPontuacao(int dano) {this->pontuacao = this->pontuacao -dano;} /* Recebe o retorno do colide */
+        void atualizaPontuacao(int dano) {this->pontuacao = this->pontuacao -dano;} /* Recebe o retorno do colide */
         int getPontuacao(){return this->pontuacao;}
 };
 

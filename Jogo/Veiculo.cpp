@@ -1,8 +1,9 @@
-#include  "Veiculo.hpp"
+#include  "Veiculo.h"
 
-Veiculo::Veiculo(int xi, int yi, int vxi, int comprimento) {
+Veiculo::Veiculo(int xi, int yi, int vxi, int comprimento, int id) {
     inicializar(xi,yi,vxi);
     setComprimento(comprimento);
+    this->id = id;
 }
 
 Veiculo::~Veiculo() {

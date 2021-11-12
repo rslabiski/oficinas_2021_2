@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include "Matriz.h"
+#include "Cabecalho.hpp"
 
 class Veiculo
 {
@@ -14,7 +15,7 @@ protected:
     int comprimento;
 
 public:
-    Veiculo(int xi, int yi, int vxi, int comprimento);
+    Veiculo(int xi, int yi, int vxi, int comprimento, int id);
     ~Veiculo();
 
     void inicializar(int xi, int yi, int v);

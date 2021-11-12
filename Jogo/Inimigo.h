@@ -10,13 +10,13 @@ class Inimigo : public Veiculo {
         float atraso;
 
     public:
-        Inimigo(int xi, int yi, int vxi, int comprimento, int dano, int atraso);
+        Inimigo(int xi, int yi, int vxi, int comprimento, int id, int dano, int atraso);
         ~Inimigo();
 
         int getDano() {return this->dano;}
         int getAtraso() {return this->atraso;}
 
-        virtual void mover(char tecla = 0);
+        virtual void mover();
         void deletarInimigo();
 };
 

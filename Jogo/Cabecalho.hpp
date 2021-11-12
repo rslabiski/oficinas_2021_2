@@ -43,4 +43,9 @@ using namespace std;
 #define PROGRESSO_POR_SEG 0.02
 #define TEMPO_SPAWN 2 //2 seg
 
+//VELOCIDADES
+#define VELOCIDADE_PADRAO 3
+#define VELOCIDADE_MIN 1
+#define VELOCIDADE_MXM 5
+
 #endif

@@ -8,13 +8,14 @@
 
 class Carro2 : public Inimigo
 {
-    private:
-        int velocidadex;
+    /*private:
+        int velocidadex;*/
     public:
-        Carro2(int xi, int yi, int vxi, int comprimento, int dano, int atraso);
+        Carro2(int xi, int yi, int vxi, int comprimento, int id, int dano, int atraso);
         ~Carro2();
 
-        void mover();
+        void mover(Matriz* M);
+        int evitaColisao(int x, int y, Matriz* M); /* Verifica se haverá colisão caso seja movido para posiçaõ xy */
 };
 
 #endif
