@@ -3,12 +3,13 @@
 Jogo::Jogo()
 {
   dificuldade = 1;
-  fimDoJogo = false;
+  fimDaFase = false;
   vitoria = false;
-  tempoDeJogo = 0.0;
+  tempoDaFase = 0.0;
   dt = 0.0;
-  pontuacao = 0.0;
   progresso = 0.0;
+  tamanhoPista = 0;
+  pJogador = NULL;
 }
 
 Jogo::~Jogo()
@@ -28,28 +29,19 @@ void Jogo::Setup()
 
 void Jogo::executar()
 {
-  float tAnterior, tAtual; // Variaveis para controle de clock
+  // Variaveis para controle de clock
+  float tAnterior, tAtual;
 
-  // Intro do jogo
   rodarIntroJogo();
-
-  // Selecao de dificuldade
   selecionaDificuldade();
+  inicializarFase();
 
-  // Inicialização da fase de acordo com a dificuldade
-  // FALTA DECLARAR FUNCAO E IMPLEMENTAR
-  tempoDeJogo = 10.; // De acordo com a dificuldade
-
-  // Inicializacao das variaveis de controle
-  vitoria = false;
-  fimDoJogo = false;
-  pontuacao = 0.0;
-  progresso = 0.0;
+  // Inicialização do controle do tempo
   dt = 0.0;
-  tAnterior = millis() / 1000; // Pega o tempo em segundos
-  
+  tAnterior = millis() / 1000;
+
   // Loop do jogo
-  while (!fimDoJogo)
+  while (!fimDaFase)
   {
     // Atualiza a variacao do tempo
     tAtual = millis() / 1000;
@@ -61,28 +53,49 @@ void Jogo::executar()
     renderizar();
 
     // Verifica fim de jogo
-    if(tempoDeJogo < 0.0)
+    if (tempoDaFase < 0.0)
     {
       vitoria = false;
-      fimDoJogo = true;
+      fimDaFase = true;
     }
-    else if(progresso >= 1.0) 
+    else if (progresso >= 1.0)
     {
       vitoria = true;
-      fimDoJogo = true;
+      fimDaFase = true;
     }
     else
       tAnterior = tAtual; // Reseta o tempo do tick
   }
 
   // Teste de vitoria
-  if(vitoria)
+  if (vitoria)
     acoesVitoria();
   else
     acoesDerrota();
 
+  // Desalocação de memoria
+  if (pJogador != NULL)
+  {
+    delete(pJogador);
+    pJogador = NULL;
+  }
+
   //Espera dois segundos para Reiniciar o jogo
   delay(2000);
+}
+
+void Jogo::rodarIntroJogo()
+{
+  matrizLED.todosLeds(1);
+  displayLCD.imprimeCentralizado("Road", 0);
+  displayLCD.imprimeCentralizado("Fighter", 1);
+  delay(1000);
+  matrizLED.todosLeds(0);
+  // Temporario
+  delay(1000);
+  matrizLED.todosLeds(1);
+  delay(1000);
+  matrizLED.todosLeds(0);
 }
 
 void Jogo::selecionaDificuldade()
@@ -90,7 +103,7 @@ void Jogo::selecionaDificuldade()
   displayLCD.imprimeCentralizado("Selecione a", 0);
   displayLCD.imprimeCentralizado("dificuldade", 1);
   delay(2000);
-  
+
   //Inicia com dificuldade facil
   dificuldade = 1;
   digitalWrite(P_LED_G, HIGH);
@@ -150,18 +163,51 @@ void Jogo::selecionaDificuldade()
   delay(2000);
 }
 
-void Jogo::rodarIntroJogo()
+void Jogo::inicializarFase()
 {
-  matrizLED.todosLeds(1);
-  displayLCD.imprimeCentralizado("Road", 0);
-  displayLCD.imprimeCentralizado("Fighter", 1);
-  delay(2000);
-  matrizLED.todosLeds(0);
-  // Temporario
-  delay(1000);
-  matrizLED.todosLeds(1);
-  delay(1000);
-  matrizLED.todosLeds(0);
+  // Inicializacao das variaveis de controle
+  vitoria = false;
+  fimDaFase = false;
+  pJogador->setPontuacao(0.0);
+  progresso = 0.0;
+
+  // Alocacao do jogador
+  pJogador = new Jogador(0.0 , 0.0, 0.0, 0.0);
+  if (pJogador == NULL)
+  {
+    displayLCD.imprimeCentralizado("Err jogador=NULL", 0);
+    displayLCD.imprimeCentralizado("inicializaFase()", 1);
+    delay(5000);
+  }
+
+  // Definicao dos atributos da fase
+  switch (dificuldade)
+  {
+    case 1:
+      tempoDaFase = 5.0;
+      tamanhoPista = 6;
+      // Definir tamanho do Vetor / Lista de inimigos (qnt de inimigos) (inicia com todos null!)
+      // Definir o tempo de spawn
+      // Definir a porcentagem da velocidade base dos inimigos
+      break;
+    case 2:
+      tempoDaFase = 4.0;
+      tamanhoPista = 5;
+      break;
+    case 3:
+    default:
+      tempoDaFase = 3.0;
+      tamanhoPista = 4;
+      break;
+  }
+
+  // Acende a Pista
+  int resto = (8 - tamanhoPista) / 2;
+  matrizLED.ledIntervalo(0, 15, 0, resto - 1, HIGH);
+  matrizLED.ledIntervalo(0, 15, tamanhoPista + resto, 7, HIGH);
+
+  // Inicia Jogador
+  // FALTA IMPLEMENTAR
 }
 
 void Jogo::capturarEntrada()
@@ -172,11 +218,10 @@ void Jogo::capturarEntrada()
 void Jogo::atualizar()
 {
   // Atualiza tempos de acordo com o dt
-  tempoDeJogo -= dt;
-  pontuacao += dt * PONTO_POR_SEG;
+  tempoDaFase -= dt;
+  pJogador->somaPontuacao(dt * 200);//PONTO_POR_SEG);
   progresso += dt * PROGRESSO_POR_SEG;
-  // FALTA O PROGRESSO!
-  
+
   // Atuaiza Inimigo
   // Se VY > 0 e Não houver colisão, apaga o led superior e acende o inferior.
   // Se VX > 0 ou < 0 e houver NÃO houver colisão, move (apaga o corpo da coluna e desenha na nova coluna).
@@ -189,19 +234,23 @@ void Jogo::atualizar()
 
 void Jogo::renderizar()
 {
-  displayLCD.imprimeStatusFase(pontuacao, tempoDeJogo, progresso);
+  displayLCD.imprimeStatusFase(pJogador->getPontuacao(), tempoDaFase, progresso);
 }
 
 void Jogo::acoesVitoria()
 {
   // Sequencia de ações que vão ocorrer com a vitória do jogador
+  String pontos;
+  pontos.concat((int)pJogador->getPontuacao());
   displayLCD.imprimeCentralizado("Vitoria!", 0);
-  displayLCD.imprimeCentralizado("", 1);
+  displayLCD.imprimeCentralizado("Pontos: " + pontos, 1);
 }
 
 void Jogo::acoesDerrota()
 {
   // Sequencia de ações que vão ocorrer com a derrota do jogador
+  String pontos;
+  pontos.concat((int)pJogador->getPontuacao());
   displayLCD.imprimeCentralizado("Derrota!", 0);
-  displayLCD.imprimeCentralizado("", 1);
+  displayLCD.imprimeCentralizado("Pontos: " + pontos, 1);
 }

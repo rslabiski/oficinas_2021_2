@@ -5,6 +5,7 @@
 #include "DisplayLCD.hpp"
 #include "Joystick.hpp"
 #include "MatrizLED.hpp"
+#include "Jogador.hpp"
 
 // LEDS
 #define P_LED_G 5
@@ -15,16 +16,18 @@ class Jogo
 {
   private:
     int dificuldade; // Variavel de contole da dificuldade do jogo
-    bool fimDoJogo; // Variável de controle do loop do jogo
+    bool fimDaFase; // Variável de controle do loop da fase
     bool vitoria; // Variável de controle da vitória do jogador
-    float tempoDeJogo; // Tempo que será mostrado no display
+    float tempoDaFase; // Tempo que será mostrado no display
     float dt; // Tempo de tick do loop do jogo
-    float pontuacao; // Pontuacao do jogador
     float progresso; // Progresso da pista
+    int tamanhoPista; // Tamanho da pista
 
     DisplayLCD displayLCD;
     Joystick joystick;
     MatrizLED matrizLED;
+
+    Jogador *pJogador;
 
   public:
     Jogo();
@@ -32,8 +35,9 @@ class Jogo
 
     void Setup(); // Setup do Hardware
     void executar(); // Execução do jogo (Não é o loop da fase!)
-    void selecionaDificuldade(); // Jogador seleciona a dificultade do jogo
     void rodarIntroJogo();
+    void selecionaDificuldade(); // Jogador seleciona a dificultade do jogo
+    void inicializarFase();
     void capturarEntrada(); // Captura entrada do joystick e altera velocidade do jogador
     void atualizar(); // Atualiza os elementos do jogo
     void renderizar(); // Renderiza no Display e Matriz

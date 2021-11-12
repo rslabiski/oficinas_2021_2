@@ -48,12 +48,8 @@ void DisplayLCD::imprimeStatusFase(int pontos, int segundos, float progressoCorr
   //Imprime pontuacao
   setCursor(0, 0);
   print("Pts:    ");
-
   setCursor(4, 0);
-  if (pontos > 999)
-    print(999);
-  else
-    print(pontos);
+  print(pontos);
 
   //Imprime tempo
   setCursor(8, 0);
