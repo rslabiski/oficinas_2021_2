@@ -18,6 +18,10 @@ class Inimigo : public Veiculo {
 
         virtual void mover();
         void deletarInimigo();
+
+        /* Andrea: pra verificar se tá na hora de deletar ele. */
+        bool foraDaPista();
 };
+
 
 #endif

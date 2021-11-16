@@ -15,6 +15,8 @@ class Carro2 : public Inimigo
         ~Carro2();
 
         void mover(Matriz* M);
+
+        /*Andrea: O ideal aqui é que verifique o vetor de inimigos, certo?*/
         int evitaColisao(int x, int y, Matriz* M); /* Verifica se haverá colisão caso seja movido para posiçaõ xy */
 };
 

@@ -3,7 +3,7 @@
 Jogo::Jogo()
 {
   dificuldade = 1;
-  fimDaFase = false;
+  // fimDaFase = false;
   vitoria = false;
   tempoDaFase = 0.0;
   dt = 0.0;
@@ -14,7 +14,8 @@ Jogo::Jogo()
 
 Jogo::~Jogo()
 {
-
+  if(pJogador) delete pJogador;
+  //delete vetor de inimigos
 }
 
 void Jogo::Setup()
@@ -29,7 +30,8 @@ void Jogo::Setup()
 
 void Jogo::executar()
 {
-  // Variaveis para controle de clock
+
+  /*--- Variaveis para controle de clock. ---*/
   float tAnterior, tAtual;
 
   rodarIntroJogo();
@@ -84,6 +86,7 @@ void Jogo::executar()
   delay(2000);
 }
 
+/*--- Interface inicial do jogo. ---*/
 void Jogo::rodarIntroJogo()
 {
   matrizLED.todosLeds(1);
@@ -98,13 +101,13 @@ void Jogo::rodarIntroJogo()
   matrizLED.todosLeds(0);
 }
 
+/*--- Interface de seleção da Dificuldade ---*/
 void Jogo::selecionaDificuldade()
 {
   displayLCD.imprimeCentralizado("Selecione a", 0);
   displayLCD.imprimeCentralizado("dificuldade", 1);
   delay(2000);
 
-  //Inicia com dificuldade facil
   dificuldade = 1;
   digitalWrite(P_LED_G, HIGH);
   digitalWrite(P_LED_Y, LOW);
@@ -163,11 +166,12 @@ void Jogo::selecionaDificuldade()
   delay(2000);
 }
 
+/*--- INCOMPLETO ---*/
 void Jogo::inicializarFase()
 {
   // Inicializacao das variaveis de controle
   vitoria = false;
-  fimDaFase = false;
+  //fimDaFase = false;
   pJogador->setPontuacao(0.0);
   progresso = 0.0;
 
@@ -186,7 +190,6 @@ void Jogo::inicializarFase()
     case 1:
       tempoDaFase = 5.0;
       tamanhoPista = 6;
-      // Definir tamanho do Vetor / Lista de inimigos (qnt de inimigos) (inicia com todos null!)
       // Definir o tempo de spawn
       // Definir a porcentagem da velocidade base dos inimigos
       break;
@@ -196,12 +199,12 @@ void Jogo::inicializarFase()
       break;
     case 3:
     default:
-      tempoDaFase = 3.0;
+      tempoDaFase = 4.0;
       tamanhoPista = 4;
       break;
   }
 
-  // Acende a Pista
+  /*--- Acende a Pista ---*/
   int resto = (8 - tamanhoPista) / 2;
   matrizLED.ledIntervalo(0, 15, 0, resto - 1, HIGH);
   matrizLED.ledIntervalo(0, 15, tamanhoPista + resto, 7, HIGH);
@@ -210,11 +213,41 @@ void Jogo::inicializarFase()
   // FALTA IMPLEMENTAR
 }
 
+/*--- INCOMPLETO Captura entrada do jostick para mudar posicao do jogador ---*/
 void Jogo::capturarEntrada()
 {
-  // Captura entrada do jostick para mudar posicao do jogador
+  switch(joystick.eixoX()){
+    case 1:
+      pJogador->mover('d');
+      break;
+    case -1:
+      pJogador->mover('a');
+      break;
+  }
+
+  switch(joystick.eixoY()){
+    case 1:
+      pJogador->mover('w');
+      break;
+    case -1:
+      pJogador->mover('s');
+      break;
+  }
 }
 
+/*--- Atualiza os inimigos a partir de sua velocidade e da do Jogador ---*/
+void Jogo::atualizarInimigos(){
+
+  /*--- Esta função pode ser facilmente mudada. ---*/
+  for(vector<Inimigo>::iterator it = inimigos.begin(), int i = 0; it != inimigos.end(); ++it, i++) {
+    it->mover(&matrizLED);
+    if(it->foraDaPista())
+      inimigos.erase(inimigos.begin() + i);
+ }
+
+}
+
+/*--- INCOMPLETO ---*/
 void Jogo::atualizar()
 {
   // Atualiza tempos de acordo com o dt
@@ -222,6 +255,20 @@ void Jogo::atualizar()
   pJogador->somaPontuacao(dt * 200);//PONTO_POR_SEG);
   progresso += dt * PROGRESSO_POR_SEG;
 
+  /* Este código tem que ir dentro de um while dizendo o quaão rápido a tela deve ser atualizada. Isso vai de acordo com a velocidade do jogador.*/
+  
+  atualizarInimigos();
+  capturarEntrada();
+  //t += tempo do jogador
+  int d = pJogador->colide();
+  if(d > 0)
+    pontuacao-= d
+  
+  if(encerrarPartida()) acoesDerrota();
+  else if(progresso == tamanhoPista) acoesVitoria();
+
+
+  /*---------------------------------------------------*/
   // Atuaiza Inimigo
   // Se VY > 0 e Não houver colisão, apaga o led superior e acende o inferior.
   // Se VX > 0 ou < 0 e houver NÃO houver colisão, move (apaga o corpo da coluna e desenha na nova coluna).
@@ -230,25 +277,79 @@ void Jogo::atualizar()
   // Se VX > 0 ou < 0 E não bater na parede, move (apaga o corpo da coluna e desenha na nova coluna).
 
   // Verifica colisão entre jogador e inimigos
+
 }
 
+/*--- Gera os inimigos, recebe um número máximo de inimigos que podem ser gerados e a máxima posição em y (assim também gera os inimigos iniciais) ---*/
+void Jogo::geradorInimigos(int maxInimigos, int posy){
+
+  srand(time(NULL));
+  int numInimigos = rand()%maxInimigos + 1;
+  int px, py;
+  int tipo;
+
+  int carro2 = rand()%2;
+
+  while(carro2 > 0){
+    px = rand()%8;
+    py = rand()%3;
+    
+    Carro2* c = new Carro2(px, py, 0, 2, 0, 0, 0);
+    
+    if(c->evitaColisao(px, py, inimigos)) delete c;
+    else{
+      carro2--;
+      numInimigos--;
+      inimigos.push_back(c);
+    }
+  }
+
+  /* verificar se não vai ter sobrecarga no tamanho da pista*/
+
+  while(numInimigos > 0){
+    px = rand()%8;
+    py = rand()%3;
+    
+    Inimigo* c = new Inimigo(px, py, 0, 2, 0, 0, 0);
+    
+    if(c->evitaColisao(px, py, inimigos)) delete c;
+    else{
+      carro2--;
+      numInimigos--;
+      inimigos.push_back(c);
+    }
+
+  }
+  
+}
+
+/*--- INCOMPLETO Renderiza o display e os elementos na matriz ---*/
 void Jogo::renderizar()
 {
   displayLCD.imprimeStatusFase(pJogador->getPontuacao(), tempoDaFase, progresso);
+  //chama jogador e imprime jogador
+  //chama vetor de inimigos e imprime cada inimigo
 }
 
+/* Verifica se encerrou partida antes do trajeto terminar. */
+bool Jogo::encerrarPartida(){
+  return (pJogador->() < 0 || tempoDaFase <= 0 || progresso >= tamanhoPista) ? true : false;
+}
+
+/* Sequencia de ações que vão ocorrer com a vitória do jogador. */
 void Jogo::acoesVitoria()
 {
-  // Sequencia de ações que vão ocorrer com a vitória do jogador
+  
   String pontos;
   pontos.concat((int)pJogador->getPontuacao());
   displayLCD.imprimeCentralizado("Vitoria!", 0);
   displayLCD.imprimeCentralizado("Pontos: " + pontos, 1);
 }
 
+/* Sequencia de ações que vão ocorrer com a derrota do jogador. */
 void Jogo::acoesDerrota()
 {
-  // Sequencia de ações que vão ocorrer com a derrota do jogador
+ 
   String pontos;
   pontos.concat((int)pJogador->getPontuacao());
   displayLCD.imprimeCentralizado("Derrota!", 0);
