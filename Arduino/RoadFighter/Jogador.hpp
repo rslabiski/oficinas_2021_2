@@ -19,6 +19,8 @@ class Jogador :
     void setPontuacao(float pontuacao);
     void somaPontuacao(float valor); // Pode somar valores negativos!
     float getPontuacao() {return this->pontuacao;}
+
+    void mover(int x, int y); /* Recebe o retorno do Joystick */
 };
 
 #endif

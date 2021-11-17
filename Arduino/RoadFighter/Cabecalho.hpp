@@ -13,4 +13,9 @@
 #define V_CARRO_ZIGZAG 1.5 // Led por seg.
 #define V_CAMINHAO  0.5 // Led por seg.
 
+//VELOCIDADES
+#define VELOCIDADE_PADRAO 2.0
+#define VELOCIDADE_MIN 1.0
+#define VELOCIDADE_MXM 3.0
+
 #endif
