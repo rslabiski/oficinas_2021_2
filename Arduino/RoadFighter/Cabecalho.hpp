@@ -13,4 +13,7 @@
 #define V_CARRO_ZIGZAG 1.5 // Led por seg.
 #define V_CAMINHAO  0.5 // Led por seg.
 
+#define VX_JOGADOR 2.0 // Led por seg.
+#define VY_JOGADOR 1.0 // Led por seg.
+
 #endif

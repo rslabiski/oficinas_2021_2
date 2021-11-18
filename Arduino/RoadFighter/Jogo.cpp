@@ -39,13 +39,13 @@ void Jogo::executar()
 
   // Inicialização do controle do tempo
   dt = 0.0;
-  tAnterior = millis() / 1000;
+  tAnterior = (float) millis() / 1000;
 
   // Loop do jogo
   while (!fimDaFase)
   {
     // Atualiza a variacao do tempo
-    tAtual = millis() / 1000;
+    tAtual = (float) millis() / 1000;
     dt = tAtual - tAnterior ;
 
     // Sequencia de jogo
@@ -167,22 +167,18 @@ void Jogo::inicializarFase()
   switch (dificuldade)
   {
     case 1:
-      tempoDaFase = 5.0;
-      // tamanhoPista = 6;
+      tempoDaFase = 30.0;
       pPista = new Pista(0,7);
       // Definir tamanho do Vetor / Lista de inimigos (qnt de inimigos) (inicia com todos null!)
       // Definir o tempo de spawn
-      // Definir a porcentagem da velocidade base dos inimigos
       break;
     case 2:
-      tempoDaFase = 4.0;
-      //tamanhoPista = 5;
+      tempoDaFase = 20.0;
       pPista = new Pista(1,6);
       break;
     case 3:
     default:
-      tempoDaFase = 3.0;
-      // tamanhoPista = 4;
+      tempoDaFase = 12.0;
       pPista = new Pista(1,5);
       break;
   }
@@ -199,22 +195,68 @@ void Jogo::inicializarFase()
 
 void Jogo::capturarEntrada()
 {
-  // Captura entrada do jostick para mudar posicao do jogador
+  // Seta velocidade X do Jogador
+  switch (joystick.eixoX())
+  {
+  case -1:
+    pJogador->setVX(-1.0 * VX_JOGADOR);
+    break;
+  case 1:
+    pJogador->setVX( 1.0 * VX_JOGADOR);
+    break;
+  default:
+    pJogador->setVX( 0.0 * VX_JOGADOR);
+    break;
+  }
+
+  // Seta velocidade Y do Jogador
+  switch (joystick.eixoY())
+  {
+  case -1:
+    pJogador->setVY(1.0);
+    break;
+  case 1:
+    pJogador->setVY(2.0);
+    break;
+  default:
+    pJogador->setVY(1.5);
+    break;
+  }
 }
 
 void Jogo::atualizar()
 {
   // Atualiza tempos de acordo com o dt
   tempoDaFase -= dt;
-  pJogador->somaPontuacao(dt * 200);//PONTO_POR_SEG);
-  progresso += dt * PROGRESSO_POR_SEG;
+  pJogador->somaPontuacao(dt * PONTO_POR_SEG * pJogador->getVY()); // Conforme a velocidade do Jogador
+  progresso += dt * PROGRESSO_POR_SEG * pJogador->getVY(); // Conforme a velocidade do jogador
 
-  // Atuaiza Inimigo
+  // Seta velocidade de inimigos (FALTA IMPLEMENTAR)
+
+  // Verifica colisão jogador com parede
+  if ( pJogador->getX() + pJogador->getVX() * dt <= pPista->getXi() + 1  ||
+       pJogador->getX() + pJogador->getVX() * dt >= pPista->getXf())
+  {
+    // Seta a velocidade em X do jogador como 0.0 Led/seg
+    pJogador->setVX(0.0);
+  }
+
+  /* ANALIZAR MELHOR ESSE TRECHO
+  // Verifica colisão inimigos com parede (FALTA IMPLEMENTAR)
+      // Seta a velocidade em X do inimigo como 0.0
+
+  // Verifica colisão inimigos com jogador (FALTA IMPLEMENTAR)
+
   // Se VY > 0 e Não houver colisão, apaga o led superior e acende o inferior.
   // Se VX > 0 ou < 0 e houver NÃO houver colisão, move (apaga o corpo da coluna e desenha na nova coluna).
+  */
 
-  // Atualiza Jogador
-  // Se VX > 0 ou < 0 E não bater na parede, move (apaga o corpo da coluna e desenha na nova coluna).
+  // Apaga o led atual
+  matrizLED.led(15, pJogador->getX(), LOW);
+  // Move o personagem
+  pJogador->mover(pJogador->getVX() *  dt, pJogador->getVY() * dt);
+  // Acende o led na posicao correta
+  matrizLED.led(15, pJogador->getX(), HIGH);
 
   // Verifica colisão entre jogador e inimigos
 }
@@ -228,7 +270,7 @@ void Jogo::acoesVitoria()
 {
   // Sequencia de ações que vão ocorrer com a vitória do jogador
   String pontos;
-  pontos.concat((int)pJogador->getPontuacao());
+  pontos.concat(pJogador->getPontuacao());
   displayLCD.imprimeCentralizado("Vitoria!", 0);
   displayLCD.imprimeCentralizado("Pontos: " + pontos, 1);
 }
@@ -237,7 +279,7 @@ void Jogo::acoesDerrota()
 {
   // Sequencia de ações que vão ocorrer com a derrota do jogador
   String pontos;
-  pontos.concat((int)pJogador->getPontuacao());
+  pontos.concat(pJogador->getPontuacao());
   displayLCD.imprimeCentralizado("Derrota!", 0);
   displayLCD.imprimeCentralizado("Pontos: " + pontos, 1);
 }

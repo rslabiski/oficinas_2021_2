@@ -10,3 +10,9 @@ Veiculo::~Veiculo()
 {
 
 }
+
+void Veiculo::mover(float dx, float dy)
+{
+  this->x += dx;
+  this->y += dy;
+}
