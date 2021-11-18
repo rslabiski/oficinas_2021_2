@@ -6,6 +6,7 @@
 #include "Joystick.hpp"
 #include "MatrizLED.hpp"
 #include "Jogador.hpp"
+#include "Pista.hpp"
 
 // LEDS
 #define P_LED_G 5
@@ -21,13 +22,13 @@ class Jogo
     float tempoDaFase; // Tempo que será mostrado no display
     float dt; // Tempo de tick do loop do jogo
     float progresso; // Progresso da pista
-    int tamanhoPista; // Tamanho da pista
 
     DisplayLCD displayLCD;
     Joystick joystick;
     MatrizLED matrizLED;
 
     Jogador *pJogador;
+    Pista *pPista;
 
   public:
     Jogo();
@@ -43,6 +44,10 @@ class Jogo
     void renderizar(); // Renderiza no Display e Matriz
     void acoesVitoria(); // Acoes quando o jogador Vencer
     void acoesDerrota(); // Acoes quadno o jogador Perder
+
+    void inicializarPista();
+    void inicializarJogador();
+    void desalocarElementos(); // desaloca os ponteiros do Jogo
 };
 
 #endif

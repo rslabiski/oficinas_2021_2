@@ -8,13 +8,14 @@ Jogo::Jogo()
   tempoDaFase = 0.0;
   dt = 0.0;
   progresso = 0.0;
-  tamanhoPista = 0;
   pJogador = NULL;
+  pPista = NULL;
 }
 
 Jogo::~Jogo()
 {
-
+  // Desaloca memoria
+  desalocarElementos();
 }
 
 void Jogo::Setup()
@@ -74,11 +75,7 @@ void Jogo::executar()
     acoesDerrota();
 
   // Desalocação de memoria
-  if (pJogador != NULL)
-  {
-    delete(pJogador);
-    pJogador = NULL;
-  }
+  desalocarElementos();
 
   //Espera dois segundos para Reiniciar o jogo
   delay(2000);
@@ -89,13 +86,8 @@ void Jogo::rodarIntroJogo()
   matrizLED.todosLeds(1);
   displayLCD.imprimeCentralizado("Road", 0);
   displayLCD.imprimeCentralizado("Fighter", 1);
-  delay(1000);
   matrizLED.todosLeds(0);
-  // Temporario
-  delay(1000);
-  matrizLED.todosLeds(1);
-  delay(1000);
-  matrizLED.todosLeds(0);
+  delay(1500);
 }
 
 void Jogo::selecionaDificuldade()
@@ -171,43 +163,38 @@ void Jogo::inicializarFase()
   pJogador->setPontuacao(0.0);
   progresso = 0.0;
 
-  // Alocacao do jogador
-  pJogador = new Jogador(0.0 , 0.0, 0.0, 0.0);
-  if (pJogador == NULL)
-  {
-    displayLCD.imprimeCentralizado("Err jogador=NULL", 0);
-    displayLCD.imprimeCentralizado("inicializaFase()", 1);
-    delay(5000);
-  }
-
   // Definicao dos atributos da fase
   switch (dificuldade)
   {
     case 1:
       tempoDaFase = 5.0;
-      tamanhoPista = 6;
+      // tamanhoPista = 6;
+      pPista = new Pista(0,7);
       // Definir tamanho do Vetor / Lista de inimigos (qnt de inimigos) (inicia com todos null!)
       // Definir o tempo de spawn
       // Definir a porcentagem da velocidade base dos inimigos
       break;
     case 2:
       tempoDaFase = 4.0;
-      tamanhoPista = 5;
+      //tamanhoPista = 5;
+      pPista = new Pista(1,6);
       break;
     case 3:
     default:
       tempoDaFase = 3.0;
-      tamanhoPista = 4;
+      // tamanhoPista = 4;
+      pPista = new Pista(1,5);
       break;
   }
 
-  // Acende a Pista
-  int resto = (8 - tamanhoPista) / 2;
-  matrizLED.ledIntervalo(0, 15, 0, resto - 1, HIGH);
-  matrizLED.ledIntervalo(0, 15, tamanhoPista + resto, 7, HIGH);
+  // Inicializacao da pista
+  inicializarPista();
+  
+  // Alocacao do jogador
+  pJogador = new Jogador(0.0 , 0.0, 0.0, 0.0);
+  inicializarJogador();
 
-  // Inicia Jogador
-  // FALTA IMPLEMENTAR
+  // Criacao do vetor de inimigos.
 }
 
 void Jogo::capturarEntrada()
@@ -253,4 +240,48 @@ void Jogo::acoesDerrota()
   pontos.concat((int)pJogador->getPontuacao());
   displayLCD.imprimeCentralizado("Derrota!", 0);
   displayLCD.imprimeCentralizado("Pontos: " + pontos, 1);
+}
+
+void Jogo::inicializarPista()
+{
+  if(pPista == NULL) {
+    // Mensagem de erro
+    displayLCD.imprimeCentralizado("Err pista=NULL", 0);
+    displayLCD.imprimeCentralizado("inicializaFase()", 1);
+    delay(5000);
+  }
+  else {
+    // Acende a Pista
+    matrizLED.ledIntervalo(0, 15, 0, pPista->getXi(), HIGH);
+    matrizLED.ledIntervalo(0, 15, pPista->getXf(), 7, HIGH);
+  }
+}
+
+void Jogo::inicializarJogador()
+{
+  if (pJogador == NULL) {
+    // Mensagem de erro
+    displayLCD.imprimeCentralizado("Err jogador=NULL", 0);
+    displayLCD.imprimeCentralizado("inicializaFase()", 1);
+    delay(5000);
+  }
+  else {
+    // Acende o jogador
+    pJogador->setX(3.0); // Coluna do meio da matriz
+    pJogador->setY(15.0); // Linha final da matriz
+    matrizLED.led((int)pJogador->getY(), (int)pJogador->getX(), HIGH);
+  }
+}
+
+void Jogo::desalocarElementos()
+{
+  if(pJogador){
+    delete(pJogador);
+    pJogador = NULL;
+  }
+
+  if(pPista) {
+    delete(pPista);
+    pPista = NULL;
+  }
 }
