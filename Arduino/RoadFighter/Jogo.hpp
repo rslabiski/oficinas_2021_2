@@ -7,6 +7,7 @@
 #include "MatrizLED.hpp"
 #include "Jogador.hpp"
 #include "Pista.hpp"
+#include "Inimigo.hpp"
 
 // LEDS
 #define P_LED_G 5
@@ -50,7 +51,6 @@ class Jogo
     void inicializarPista();
     void inicializarJogador();
     void desalocarElementos(); // desaloca os ponteiros do Jogo
-
     void desalocarInimigo(Inimigo *pInimigo); // Funcao para desalocar inimigo
 };
 

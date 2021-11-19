@@ -17,7 +17,7 @@ public:
     int getXf() {return this->xf;}
     int getYi() {return this->yi;}
     int getYf() {return this->yf;}
-    int getTamanho(){ return this->getYf - this->getYi; }
+    int getTamanho(){ return this->yf - this->yi; }
 };
 
 #endif
