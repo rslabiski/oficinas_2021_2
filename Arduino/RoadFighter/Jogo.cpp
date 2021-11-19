@@ -7,7 +7,6 @@ Jogo::Jogo()
   vitoria = false;
   tempoDaFase = 0.0;
   dt = 0.0;
-  progresso = 0.0;
   pJogador = NULL;
   pPista = NULL;
 }
@@ -59,7 +58,7 @@ void Jogo::executar()
       vitoria = false;
       fimDaFase = true;
     }
-    else if (progresso >= 1.0)
+    else if (pJogador->getY() >= pPista->getComprimento())
     {
       vitoria = true;
       fimDaFase = true;
@@ -161,7 +160,6 @@ void Jogo::inicializarFase()
   vitoria = false;
   fimDaFase = false;
   pJogador->setPontuacao(0.0);
-  progresso = 0.0;
 
   // Definicao dos atributos da fase
   switch (dificuldade)
@@ -187,7 +185,7 @@ void Jogo::inicializarFase()
   inicializarPista();
   
   // Alocacao do jogador
-  pJogador = new Jogador(0.0 , 0.0, 0.0, 0.0);
+  pJogador = new Jogador(0.0, 0.0, 0.0, 0.0);
   inicializarJogador();
 
   // Criacao do vetor de inimigos.
@@ -213,13 +211,13 @@ void Jogo::capturarEntrada()
   switch (joystick.eixoY())
   {
   case -1:
-    pJogador->setVY(1.0);
+    pJogador->setVY(1.0 * VY_JOGADOR);
     break;
   case 1:
-    pJogador->setVY(2.0);
+    pJogador->setVY(3.0 * VY_JOGADOR);
     break;
   default:
-    pJogador->setVY(1.5);
+    pJogador->setVY(2.0 * VY_JOGADOR);
     break;
   }
 }
@@ -229,7 +227,6 @@ void Jogo::atualizar()
   // Atualiza tempos de acordo com o dt
   tempoDaFase -= dt;
   pJogador->somaPontuacao(dt * PONTO_POR_SEG * pJogador->getVY()); // Conforme a velocidade do Jogador
-  progresso += dt * PROGRESSO_POR_SEG * pJogador->getVY(); // Conforme a velocidade do jogador
 
   // Apagar os leds de cada corpo (FALTA DOS INIMIGOS)
   matrizLED.led(15, pJogador->getX(), LOW);
@@ -266,8 +263,7 @@ void Jogo::atualizar()
 
 void Jogo::renderizar()
 {
-  // pPista->getTamanho() / pJogador->getY()
-  displayLCD.imprimeStatusFase(pJogador->getPontuacao(), tempoDaFase, progresso);
+  displayLCD.imprimeStatusFase(pJogador->getPontuacao(), tempoDaFase, pJogador->getY() / pPista->getComprimento());
 }
 
 void Jogo::acoesVitoria()
@@ -314,7 +310,7 @@ void Jogo::inicializarJogador()
   else {
     // Acende o jogador
     pJogador->setX(3.0); // Coluna do meio da matriz
-    pJogador->setY(15.0); // Linha final da matriz
+    pJogador->setY(0.0); // Linha final da matriz
     matrizLED.led((int)pJogador->getY(), (int)pJogador->getX(), HIGH);
   }
 }

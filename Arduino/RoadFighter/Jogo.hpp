@@ -22,7 +22,6 @@ class Jogo
     bool vitoria; // Variável de controle da vitória do jogador
     float tempoDaFase; // Tempo que será mostrado no display
     float dt; // Tempo de tick do loop do jogo
-    float progresso; // Progresso da pista
 
     DisplayLCD displayLCD;
     Joystick joystick;
