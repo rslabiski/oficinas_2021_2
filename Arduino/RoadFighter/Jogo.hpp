@@ -30,6 +30,8 @@ class Jogo
     Jogador *pJogador;
     Pista *pPista;
 
+    // Vetor de inimigos
+
   public:
     Jogo();
     ~Jogo();
@@ -48,6 +50,8 @@ class Jogo
     void inicializarPista();
     void inicializarJogador();
     void desalocarElementos(); // desaloca os ponteiros do Jogo
+
+    void desalocarInimigo(Inimigo *pInimigo); // Funcao para desalocar inimigo
 };
 
 #endif

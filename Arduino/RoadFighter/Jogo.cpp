@@ -231,7 +231,8 @@ void Jogo::atualizar()
   pJogador->somaPontuacao(dt * PONTO_POR_SEG * pJogador->getVY()); // Conforme a velocidade do Jogador
   progresso += dt * PROGRESSO_POR_SEG * pJogador->getVY(); // Conforme a velocidade do jogador
 
-  // Seta velocidade de inimigos (FALTA IMPLEMENTAR)
+  // Apagar os leds de cada corpo (FALTA DOS INIMIGOS)
+  matrizLED.led(15, pJogador->getX(), LOW);
 
   // Verifica colisão jogador com parede
   if ( pJogador->getX() + pJogador->getVX() * dt <= pPista->getXi() + 1  ||
@@ -241,28 +242,31 @@ void Jogo::atualizar()
     pJogador->setVX(0.0);
   }
 
-  /* ANALIZAR MELHOR ESSE TRECHO
-  // Verifica colisão inimigos com parede (FALTA IMPLEMENTAR)
-      // Seta a velocidade em X do inimigo como 0.0
-
-  // Verifica colisão inimigos com jogador (FALTA IMPLEMENTAR)
-
-  // Se VY > 0 e Não houver colisão, apaga o led superior e acende o inferior.
-  // Se VX > 0 ou < 0 e houver NÃO houver colisão, move (apaga o corpo da coluna e desenha na nova coluna).
-  */
-
-  // Apaga o led atual
-  matrizLED.led(15, pJogador->getX(), LOW);
   // Move o personagem
   pJogador->mover(pJogador->getVX() *  dt, pJogador->getVY() * dt);
-  // Acende o led na posicao correta
-  matrizLED.led(15, pJogador->getX(), HIGH);
 
-  // Verifica colisão entre jogador e inimigos
+  // Seta velocidade de inimigos (FALTA IMPLEMENTAR)
+
+  // Verifica colisão dos inimigos com a parede (Falta implementar)
+
+  // Verifica colisão com os outros inimigos. Se colidir, seta velocidade vy como 0. se não, pode se mover.
+
+  // Verifica colisão com o player
+
+  // Verifica se inimigo saiu da tela
+
+  /* Remoção do inimigo
+    desalocarInimigo(inimigos[i]);
+    inimigos.erase(i);
+  */
+
+  // Acender os leds de cada corpo (Falta os inimigos)
+  matrizLED.led(15, pJogador->getX(), HIGH);
 }
 
 void Jogo::renderizar()
 {
+  // pPista->getTamanho() / pJogador->getY()
   displayLCD.imprimeStatusFase(pJogador->getPontuacao(), tempoDaFase, progresso);
 }
 
@@ -325,5 +329,22 @@ void Jogo::desalocarElementos()
   if(pPista) {
     delete(pPista);
     pPista = NULL;
+  }
+
+  // Desalocar os inimigos
+  /*
+  for(iterador = ini; i<fim; i++) {
+    desalocarInimigo(inimigos[i]);
+  }
+  */
+
+}
+
+void desalocarInimigo(Inimigo *pInimigo)
+{
+  if(pInimigo)
+  {
+    delete(pInimigo);
+    pInimigo = NULL;
   }
 }
