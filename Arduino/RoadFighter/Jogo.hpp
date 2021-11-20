@@ -30,7 +30,7 @@ class Jogo
     Jogador *pJogador;
     Pista *pPista;
 
-    // Vetor de inimigos
+    arx::vector<Inimigo*> inimigos;// Vetor de inimigos
 
   public:
     Jogo();

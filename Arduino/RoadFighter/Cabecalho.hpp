@@ -3,6 +3,7 @@
 
 // Para operações nas classes
 #include "Arduino.h"
+#include <ArxContainer.h>
 
 // Parametos default para o jogo
 #define PONTO_POR_SEG 4.5 

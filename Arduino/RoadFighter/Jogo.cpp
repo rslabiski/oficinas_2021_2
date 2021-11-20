@@ -245,6 +245,7 @@ void Jogo::atualizar()
   // Seta velocidade de inimigos (FALTA IMPLEMENTAR)
 
   // Verifica colisão dos inimigos com a parede (Falta implementar)
+    // Carrinho zigzag muda direção em x apos colidir.
 
   // Verifica colisão com os outros inimigos. Se colidir, seta velocidade vy como 0. se não, pode se mover.
 
@@ -311,7 +312,7 @@ void Jogo::inicializarJogador()
     // Acende o jogador
     pJogador->setX(3.0); // Coluna do meio da matriz
     pJogador->setY(0.0); // Linha final da matriz
-    matrizLED.led((int)pJogador->getY(), (int)pJogador->getX(), HIGH);
+    matrizLED.led((int) 15.0, (int)pJogador->getX(), HIGH);
   }
 }
 
@@ -328,15 +329,12 @@ void Jogo::desalocarElementos()
   }
 
   // Desalocar os inimigos
-  /*
-  for(iterador = ini; i<fim; i++) {
-    desalocarInimigo(inimigos[i]);
-  }
-  */
-
+  for( int i = 0; i < inimigos.size(); i++ )
+    desalocarInimigo(inimigos[0]);
+  inimigos.clear();
 }
 
-void desalocarInimigo(Inimigo *pInimigo)
+void Jogo::desalocarInimigo(Inimigo *pInimigo)
 {
   if(pInimigo)
   {
