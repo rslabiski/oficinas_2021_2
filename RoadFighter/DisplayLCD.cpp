@@ -45,29 +45,18 @@ void DisplayLCD::imprimeStatusFase(int pontos, int segundos, float progressoCorr
 {
   int progressoCheio;
 
-  //Imprime pontuacao
-  setCursor(0, 0);
-  print("Pts:    ");
-  setCursor(4, 0);
-  print(pontos);
-
   //Imprime tempo
-  setCursor(8, 0);
+  setCursor(0, 0);
   print("Tmp:    ");
-
-  setCursor(12, 0);
-  if (segundos > 999)
-    print(999);
-  else
-    print(segundos);
-
-  if (segundos > 99)
-    setCursor(15, 0);
-  else if (segundos > 9)
-    setCursor(14, 0);
-  else
-    setCursor(13, 0);
+  setCursor(4, 0);
+  print(segundos);
   print("s");
+
+  //Imprime pontuacao
+  setCursor(8, 0);
+  print("Pts:    ");
+  setCursor(12, 0);
+  print(pontos);
 
   //Imprime progresso
   setCursor(0, 1);
